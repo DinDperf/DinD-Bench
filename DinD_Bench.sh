@@ -19,10 +19,13 @@ OTHER_BENCH_ARGS=()
 USER_ID=$(id -u $USER)
 DIR=$(readlink -f benchmarks/)
 
-BENCHS=$(ls benchmarks/ | cut -f2)
+BENCHS=$(ls $DIR | cut -f2)
 BENCHS_STR=$(echo $BENCHS|sed 's/ /|/g')
 
-TAGS=$(ls benchmarks/$BENCHS/Dockerfile.* | cut -d"." -f2)
+for i in $BENCHS
+do
+    TAGS=$(ls $DIR/$i/Dockerfile.* | cut -d"." -f2)
+done
 TAGS_STR=$(echo $TAGS|sed 's/ /|/g')
 
 usage() {
@@ -118,10 +121,16 @@ done
 
 
 [ $BENCH_ARRAY ] || {
-    echo "[WARNING] You must inform a valid benchmark name to begin!"
-    echo "Valid benchmarks are: $BENCHS_STR"
-    echo ""
-    exit
+
+    for i in $BENCHS
+    do
+        BENCH_ARRAY+=("$i")
+    done
+    # echo "[WARNING] You must inform a valid benchmark name to begin!"
+    # echo "Valid benchmarks are: $BENCHS_STR"
+    # echo "use -h flag to show help"
+    # echo ""
+    # exit
 }
 
 [[ "$N_TIMES_EXEC" =~ ^[0-9]+$ ]] || {
@@ -137,7 +146,7 @@ DOCKER_IMAGE=()
 for i in $BENCH_ARRAY
 do
     BENCHMARK_NAME=$i
-    $DOCKER_IMAGE+=("cnuvem23/$BENCHMARK_NAME:$DISTRO")
+    DOCKER_IMAGE+=("cnuvem23/$BENCHMARK_NAME:$DISTRO")
     docker inspect $DOCKER_IMAGE &> /dev/null
     if [ $? -ne 0 ]
     then
