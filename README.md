@@ -4,10 +4,8 @@ This is a Docker and Docker in Docker automation tool, which can run multiples b
 
 ## Usage
 
-### Run a benchmark in a Docker container
-
 ```bash
 
-./DinD-Bench.sh -b <benchmark> -i <image> -c <container_name> -o <output_dir> -t <timeout>
+./DinD-Bench.sh -b <benchmark> -t <tag> -c <cmd> -m <mode> -s <stats> -ne <n_exec> -ba <benchmark_args>
 
 ```
