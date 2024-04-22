@@ -100,7 +100,7 @@ do
 done
 
 [ $DISTRO ] || { 
-    DISTRO=alpine
+    DISTRO=debian
 }
 
 [ $DOCKER_CMD ] || {
