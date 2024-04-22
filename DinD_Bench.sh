@@ -175,11 +175,11 @@ do
         docker)
         case $DOCKER_CMD in
             build)
-            docker build -t $DOCKER_IMAGE -f ./benchmarks/$BENCHMARK_NAME/Dockerfile.$DISTRO .
+            sudo docker build -t $DOCKER_IMAGE -f ./benchmarks/$BENCHMARK_NAME/Dockerfile.$DISTRO .
             ;;
 
             pull)
-            docker pull $DOCKER_IMAGE
+            sudo docker pull $DOCKER_IMAGE
             ;;
             
             local)
@@ -193,8 +193,8 @@ do
         [ "$DOCKER_STATS" != "yes" ] || { 
             ./scripts/docker_stats_collect.sh $CONTAINER_NAME "$DSTATS_FILE" &> /dev/null &
         }
-        docker run -it --name=$CONTAINER_NAME -v $DIR/$BENCHMARK_NAME/shared:/dind_bench/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /bin/sh /dind_bench/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
-        docker container rm $CONTAINER_NAME &> /dev/null
+        sudo docker run -it --name=$CONTAINER_NAME -v $DIR/$BENCHMARK_NAME/shared:/dind_bench/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /bin/sh /dind_bench/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
+        sudo docker container rm $CONTAINER_NAME &> /dev/null
         ;;
 
         dind)
@@ -202,7 +202,7 @@ do
             ./scripts/docker_stats_collect.sh docker-dind "$DSTATS_FILE" &> /dev/null &
         }
         ./scripts/run_dind.sh -v $DIR/$BENCHMARK_NAME/shared:/dind_bench/shared docker run --name=$CONTAINER_NAME_DIND -v /dind_bench/shared:/dind_bench/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /dind_bench/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
-        docker container rm $CONTAINER_NAME_DIND &> /dev/null
+        sudo docker container rm $CONTAINER_NAME_DIND &> /dev/null
         ;;
 
         both)    
@@ -210,10 +210,10 @@ do
             ./scripts/docker_stats_collect.sh $CONTAINER_NAME "$DSTATS_FILE" &> /dev/null &
             ./scripts/docker_stats_collect.sh docker-dind "$DSTATS_FILE-docker-dind" &> /dev/null &
         }
-        docker run -it --name=$CONTAINER_NAME -v $DIR/$BENCHMARK_NAME/shared:/dind_bench/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /bin/sh /dind_bench/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
+        sudo docker run -it --name=$CONTAINER_NAME -v $DIR/$BENCHMARK_NAME/shared:/dind_bench/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /bin/sh /dind_bench/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
         ./scripts/run_dind.sh -v $DIR/$BENCHMARK_NAME/shared:/dind_bench/shared docker run --name=$CONTAINER_NAME_DIND -v /dind_bench/shared:/dind_bench/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /dind_bench/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
-        docker container rm $CONTAINER_NAME &> /dev/null
-        docker container rm $CONTAINER_NAME_DIND &> /dev/null
+        sudo docker container rm $CONTAINER_NAME &> /dev/null
+        sudo docker container rm $CONTAINER_NAME_DIND &> /dev/null
         ;;
         *)
         echo "[ERROR] invalid mode option $DOCKER_MODE!"
