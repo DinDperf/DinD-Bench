@@ -10,7 +10,7 @@ TIMESTAMP=$4
 
 N_TIMES_EXEC=$3
 
-OUT_FILE_NAME="/cnuvem23/shared/outputs-sysbench-$2-$TIMESTAMP"
+OUT_FILE_NAME="/shared/outputs-sysbench-$2-$TIMESTAMP"
 
 for i in $(seq 1 $N_TIMES_EXEC)
 do

@@ -21,7 +21,7 @@
 TIMESTAMP=$4
 
 # Diretório onde serão salvos os resultados
-result_dir="/cnuvem23/shared/"
+result_dir="/shared/"
 
 # Número de vezes que o teste será executado
 num_tests=$3

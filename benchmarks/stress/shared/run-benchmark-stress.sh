@@ -15,7 +15,7 @@ do
 
 echo -n "Running exec $N ... " 
 
-OUT_FILE="/cnuvem23/shared/outputs-stress-$2-$TIMESTAMP-exec$N.txt"
+OUT_FILE="/shared/outputs-stress-$2-$TIMESTAMP-exec$N.txt"
 
 print_line(){
     echo "================================================================" >> $OUT_FILE
@@ -51,4 +51,4 @@ echo "done."
 
 done
 
-chown -R $1 /cnuvem23/shared
+chown -R $1 /shared
