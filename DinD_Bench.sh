@@ -148,11 +148,11 @@ do
     BENCHMARK_NAME=$i
     DOCKER_IMAGE+=("cnuvem23/$BENCHMARK_NAME:$DISTRO")
     # docker inspect $DOCKER_IMAGE &> /dev/null
-    if [ $? -ne 0 ]
-    then
-        echo "[ERROR] could not inspect docker image $DOCKER_IMAGE"
-        exit
-    fi
+    # if [ $? -ne 0 ]
+    # then
+    #     echo "[ERROR] could not inspect docker image $DOCKER_IMAGE"
+    #     exit
+    # fi
     RAND_CHARS=$(echo $RANDOM | base64 | head -c 7; echo)
     RAND_CHARS=$(echo $RAND_CHARS | sed 's/[^a-zA-Z0-9]/X/g')
     CONTAINER_NAME=$BENCHMARK_NAME.$DISTRO.$RAND_CHARS
@@ -223,7 +223,7 @@ do
 done
 echo "" 
 
-sudo chown -R $USER shared
+sudo chown -R $USER ./
 
 echo "=========================================================="
 echo " Execution finished"

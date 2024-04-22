@@ -1,6 +1,6 @@
 #!/bin/sh
 
-OUTPUT_DIRECTORY="./shared"
+OUTPUT_DIRECTORY="./"
 mkdir -p "$OUTPUT_DIRECTORY"
 
 help() {
