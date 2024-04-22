@@ -147,7 +147,7 @@ for i in $BENCH_ARRAY
 do
     BENCHMARK_NAME=$i
     DOCKER_IMAGE+=("cnuvem23/$BENCHMARK_NAME:$DISTRO")
-    docker inspect $DOCKER_IMAGE &> /dev/null
+    # docker inspect $DOCKER_IMAGE &> /dev/null
     if [ $? -ne 0 ]
     then
         echo "[ERROR] could not inspect docker image $DOCKER_IMAGE"
