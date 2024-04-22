@@ -21,7 +21,7 @@
 TIMESTAMP=$4
 
 # Diretório onde serão salvos os resultados
-result_dir="/shared/"
+result_dir="/"
 
 # Número de vezes que o teste será executado
 num_tests=$3
