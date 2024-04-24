@@ -30,30 +30,25 @@ TAGS_STR=$(echo $TAGS|sed 's/ /|/g')
 
 usage() {
     echo ""
-    echo "Usage: $0 -b=$BENCHS_STR -t=$TAGS_STR -c=build|pull|local -m=docker|dind -s=y|n -ne=1 <benchmark arguments>"
+    echo "Usage: $0 -b=all|$BENCHS_STR -t=$TAGS_STR -c=build|pull|local -m=docker|dind|both -s=y|n -ne=1 -ba=<benchmark arguments>"
     echo "  -b <benchmark>: $BENCHS_STR"
     echo "      You can run multiple benchmarks using -b tag multiple times in one execution"
-    echo "      ATTENTION! THIS CONFIG THERE IS NO DEFAULT VALUE"
     echo "  -t <tag>: $TAGS_STR"
-    echo "      DEFAULT VALUE: alpine"
     echo "  -c <cmd>: "
     echo "      pull  = get image from Docker Hub: docker pull <docker_image>"
     echo "      local = just run local image: docker run -it <docker_image>"
     echo "      build = build image first: docker build -f Dockerfile.TAG"
-    echo "      DEFAULT VALUE: pull"
     echo "  -m <mode>: "
     echo "      docker = docker only"
     echo "      dind   = docker in docker only"
     echo "      both   = docker AND docker in docker"
-    echo "      DEFAULT VALUE: both"
     echo "  -s <stats>: "
     echo "      y = collect docker stats"
     echo "      n = do NOT collect docker stats"
     echo "      DEFAULT VALUE: y"
     echo "  -ne <n_exec>: (int) number of times to execute the benchmark"
-    echo "      DEFAULT VALUE: 10"
     echo "  -ba <bench_args>: other optional benchmark-specific arguments"
-    echo "      There is no default value!"
+    echo "      There is no default value, you must know the benchmarks paramethers!"
     echo "  -h <help>: show this message"
     echo ""
     exit 
@@ -64,6 +59,9 @@ for i in $*
 do
     case $j in
     -h)
+    usage
+    ;;
+    -help)
     usage
     ;;
     -b)
@@ -100,15 +98,15 @@ do
 done
 
 [ $DISTRO ] || { 
-    DISTRO=debian
+    usage
 }
 
 [ $DOCKER_CMD ] || {
-    DOCKER_CMD=pull
+    usage
 }
 
 [ $DOCKER_MODE ] || {
-    DOCKER_MODE=both
+    usage
 }
 
 [ $DOCKER_STATS ] || {
@@ -116,7 +114,7 @@ done
 }
 
 [ $N_TIMES_EXEC ] || {
-    N_TIMES_EXEC=10
+    usage
 }
 
 
