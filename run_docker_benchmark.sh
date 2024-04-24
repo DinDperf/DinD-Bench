@@ -87,10 +87,10 @@ OTHER_BENCH_ARGS="$*"
 
 case $DOCKER_CMD in 
     build)
-    docker build -t $DOCKER_IMAGE -f ./benchmarks/$BENCHMARK_NAME/Dockerfile.$DISTRO .
+    sudo docker build -t $DOCKER_IMAGE -f ./benchmarks/$BENCHMARK_NAME/Dockerfile.$DISTRO .
     ;;
     pull)
-    docker pull $DOCKER_IMAGE
+    sudo docker pull $DOCKER_IMAGE
     ;;
     local)
     ;;
@@ -102,7 +102,7 @@ esac
 
 USER_ID=$(id -u $USER)
 DIR=$(readlink -f shared)
-docker inspect $DOCKER_IMAGE &> /dev/null
+sudo docker inspect $DOCKER_IMAGE &> /dev/null
 if [ $? -ne 0 ]
 then
     echo "[ERROR] could not inspect docker image $DOCKER_IMAGE"
@@ -131,15 +131,15 @@ case $DOCKER_MODE in
     [ "$DOCKER_STATS" != "yes" ] || { 
         ./scripts/docker_stats_collect.sh $CONTAINER_NAME "$DSTATS_FILE" &> /dev/null &
     }
-    docker run -it --name=$CONTAINER_NAME -v $DIR:/cnuvem23/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /bin/sh /cnuvem23/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
-    docker container rm $CONTAINER_NAME &> /dev/null
+    sudo docker run -it --name=$CONTAINER_NAME -v $DIR:/cnuvem23/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /bin/sh /cnuvem23/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
+    sudo docker container rm $CONTAINER_NAME &> /dev/null
     ;;
     dind)
     [ "$DOCKER_STATS" != "yes" ] || { 
         ./scripts/docker_stats_collect.sh docker-dind "$DSTATS_FILE" &> /dev/null &
     }
     ./scripts/run_dind.sh -v $DIR:/cnuvem23/shared docker run --name=$CONTAINER_NAME -v /cnuvem23/shared:/cnuvem23/shared -e DISPLAY=unix$DISPLAY $DOCKER_IMAGE /cnuvem23/shared/run-benchmark-$BENCHMARK_NAME.sh $USER_ID $DISTRO $N_TIMES_EXEC $TIMESTAMP $OTHER_BENCH_ARGS
-    docker container rm $CONTAINER_NAME &> /dev/null
+    sudo docker container rm $CONTAINER_NAME &> /dev/null
     ;;
     *)
     echo "[ERROR] invalid mode option $DOCKER_MODE!"
