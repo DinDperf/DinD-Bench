@@ -7,21 +7,20 @@
 # $5* = OTHER benchmark-specific parameters
 
 [ $5 ] || {
-    $5=200
-    # echo ""
-    # echo "============================================="
-    # echo "[ERROR] trying to execute $0"
-    # echo "============================================="
-    # echo "    Missing <FILE_SIZE_IN_MB> parameter!"
-    # echo "============================================="
-    # echo ""
-    # exit
+    echo ""
+    echo "============================================="
+    echo "[ERROR] trying to execute $0"
+    echo "============================================="
+    echo "    Missing <FILE_SIZE_IN_MB> parameter!"
+    echo "============================================="
+    echo ""
+    exit
 }
 
 TIMESTAMP=$4
 
 # Diretório onde serão salvos os resultados
-result_dir="/"
+result_dir="/cnuvem23/shared/"
 
 # Número de vezes que o teste será executado
 num_tests=$3

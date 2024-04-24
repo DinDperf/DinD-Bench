@@ -20,7 +20,7 @@ dind_usage() {
 }
 
 dind_getOutputDir() {
-  DIND_OUTPUT_DIRECTORY="./"
+  DIND_OUTPUT_DIRECTORY="./shared"
   mkdir -p "$DIND_OUTPUT_DIRECTORY"
   echo $DIND_OUTPUT_DIRECTORY
 }
